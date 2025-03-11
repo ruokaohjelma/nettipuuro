@@ -14,36 +14,36 @@ window.onload = function() {
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // Piirretään täytteet (ylhäällä)
-        if (currentTime - lastToppingsChangeTime > 500) {
-            drawToppings();
-            lastToppingsChangeTime = currentTime;
-        }
-
-        // Piirretään puuro (täytteiden alle)
-        if (currentTime - lastPorridgeChangeTime > 700) {
-            drawPorridge(plateWidth);
-            lastPorridgeChangeTime = currentTime;
-        }
-
-        // Muutetaan lautasen muotoa vähitellen (alhaalla)
+        // Piirretään lautanen (pohja ruudun alareunassa)
         if (currentTime - lastPlateChangeTime > 1500) {
             plateWidth = 180 + Math.random() * 60;
             plateHeight = 150 + Math.random() * 30;
             lastPlateChangeTime = currentTime;
         }
 
-        // Piirretään lautanen (käännetty oikein)
+        // Lautasen piirtäminen alareunaan
         ctx.fillStyle = "#ffffff"; // Lautasen väri
         ctx.beginPath();
-        ctx.arc(200, 400, plateWidth, 0, Math.PI, false); // Lautanen käännetty oikein
-        ctx.lineTo(50, 400); // Vasemman puolen viiva
-        ctx.lineTo(350, 400); // Oikean puolen viiva
+        ctx.arc(200, 500, plateWidth, 0, Math.PI, false); // Lautanen (pohja alhaalla)
+        ctx.lineTo(50, 500); // Vasemman puolen viiva
+        ctx.lineTo(350, 500); // Oikean puolen viiva
         ctx.closePath();
         ctx.fill();
         ctx.strokeStyle = "#888"; // Lautasen ääriviivan väri
         ctx.lineWidth = 2;
         ctx.stroke();
+
+        // Piirretään puuro (lautaselle)
+        if (currentTime - lastPorridgeChangeTime > 700) {
+            drawPorridge(plateWidth);
+            lastPorridgeChangeTime = currentTime;
+        }
+
+        // Piirretään täytteet (puuron päälle)
+        if (currentTime - lastToppingsChangeTime > 500) {
+            drawToppings();
+            lastToppingsChangeTime = currentTime;
+        }
     }
 
     // Funktio täytteiden piirtämiseen
@@ -53,7 +53,7 @@ window.onload = function() {
         for (let i = 0; i < 20; i++) { // Lisää täytteitä
             ctx.fillStyle = toppingColors[Math.floor(Math.random() * toppingColors.length)];
             let x = 140 + Math.random() * 120;
-            let y = 160 + Math.random() * 20;
+            let y = 310 + Math.random() * 20; // Täytteet puuron päällä
 
             ctx.beginPath();
             let shape = Math.floor(Math.random() * 4);
@@ -78,13 +78,13 @@ window.onload = function() {
 
         // Piirretään puuron epätasainen yläreuna
         ctx.beginPath();
-        ctx.moveTo(120, 300); // Puuro alkaa lautasen vasemmalta reunalta
+        ctx.moveTo(120, 400); // Puuro alkaa lautasen vasemmalta reunalta
         for (let i = 0; i < plateWidth; i += 20) {
             let yOffset = Math.random() * 20 + 10; // Epätasaiset kumpareet
-            ctx.lineTo(120 + i, 300 - yOffset);
+            ctx.lineTo(120 + i, 400 - yOffset);
         }
-        ctx.lineTo(120 + plateWidth, 300); // Puuro menee alas
-        ctx.lineTo(120, 300); // Sulkee puuron yläreunan
+        ctx.lineTo(120 + plateWidth, 400); // Puuro menee alas
+        ctx.lineTo(120, 400); // Sulkee puuron yläreunan
         ctx.fillStyle = "#d1b09b"; // Puuro värinä
         ctx.fill();
 
@@ -92,7 +92,7 @@ window.onload = function() {
         for (let i = 0; i < 400; i++) { // Lisää pisteitä
             ctx.fillStyle = porridgeColors[Math.floor(Math.random() * porridgeColors.length)];
             let x = 120 + Math.random() * plateWidth;
-            let y = 300 - (Math.random() * 20 + 10); // Pysytään puuron alueella
+            let y = 400 - (Math.random() * 20 + 10); // Pysytään puuron alueella
             ctx.beginPath();
             ctx.arc(x, y, Math.random() * 2 + 1, 0, Math.PI * 2);
             ctx.fill();
