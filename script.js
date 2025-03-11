@@ -2,18 +2,29 @@ window.onload = function() {
     const canvas = document.getElementById("puuroCanvas");
     const ctx = canvas.getContext("2d");
 
+    let plateWidth = 180 + Math.random() * 60;
+    let plateHeight = 150 + Math.random() * 30;
+    let lastPlateChangeTime = 0;
+    let lastPorridgeChangeTime = 0;
+    let lastToppingsChangeTime = 0;
+
     // Funktio, joka piirtää koko järjestelmän
     function draw() {
+        const currentTime = Date.now();
+
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // Määritellään lautasen muoto ja korkeus
-        const plateHeight = 150 + Math.random() * 30;
-        const plateWidth = 180 + Math.random() * 60;
+        // Muutetaan lautasen muotoa vähitellen
+        if (currentTime - lastPlateChangeTime > 1500) {
+            plateWidth = 180 + Math.random() * 60;
+            plateHeight = 150 + Math.random() * 30;
+            lastPlateChangeTime = currentTime;
+        }
 
-        // Piirretään lautanen (käännetty)
+        // Piirretään lautanen (käännetty oikein)
         ctx.fillStyle = "#ffffff"; // Lautasen väri
         ctx.beginPath();
-        ctx.arc(200, 240, plateWidth, Math.PI, 0, false); // Käännetty lautanen
+        ctx.arc(200, 240, plateWidth, 0, Math.PI, false); // Lautanen käännetty oikein
         ctx.lineTo(50, 240); // Vasemman puolen viiva
         ctx.lineTo(350, 240); // Oikean puolen viiva
         ctx.closePath();
@@ -23,10 +34,16 @@ window.onload = function() {
         ctx.stroke();
 
         // Piirretään puuro
-        drawPorridge(plateWidth);
+        if (currentTime - lastPorridgeChangeTime > 700) {
+            drawPorridge(plateWidth);
+            lastPorridgeChangeTime = currentTime;
+        }
 
         // Piirretään täytteet
-        drawToppings();
+        if (currentTime - lastToppingsChangeTime > 500) {
+            drawToppings();
+            lastToppingsChangeTime = currentTime;
+        }
     }
 
     // Funktio piirtämään epätasainen puuro lautaselle
@@ -82,7 +99,7 @@ window.onload = function() {
         }
     }
 
-    // Alustetaan piirros ja toistetaan se 1.5 sekunnin välein (puolet nopeampi)
+    // Alustetaan piirros ja toistetaan se 500 ms välein (täytteet 500 ms, puuro 700 ms, lautanen 1500 ms)
     draw();
-    setInterval(draw, 500); // Kutsutaan piirrosta 1.5 sekunnin välein
+    setInterval(draw, 500); // Kutsutaan piirrosta 500 ms välein
 };
