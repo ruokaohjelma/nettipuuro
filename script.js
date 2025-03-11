@@ -84,5 +84,5 @@ window.onload = function() {
 
     // Alustetaan piirros ja toistetaan se 1.5 sekunnin välein (puolet nopeampi)
     draw();
-    setInterval(draw, 1500); // Kutsutaan piirrosta 1.5 sekunnin välein
+    setInterval(draw, 500); // Kutsutaan piirrosta 1.5 sekunnin välein
 };
