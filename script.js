@@ -15,7 +15,7 @@ window.onload = function() {
         // Draw plate (side view, boat-like shape)
         drawBowlShape();
 
-        // Draw porridge (half-circle heap with straight top)
+        // Draw porridge (dots, organic pile shape)
         drawPorridge();
 
         // Draw toppings
@@ -41,20 +41,15 @@ window.onload = function() {
 
     function drawPorridge() {
         const porridgeColors = ["#a07e58", "#9c7752", "#8f6d4a", "#a3835f", "#97795c"];
-        
-        // Porridge is a heap of small dots, but the shape is a half-circle with a straight top line
-        ctx.fillStyle = "#a07e58"; // Base porridge color
-        ctx.beginPath();
-        ctx.arc(300, 270, 120 + Math.random() * 20, Math.PI, 0, false); // Half circle shape (heap of porridge)
-        ctx.lineTo(180, 270); // Connect the straight line on top
-        ctx.closePath();
-        ctx.fill();
 
-        // Add more details by filling with smaller dots
+        // Draw porridge as small random dots forming an organic pile
         for (let i = 0; i < 400 + Math.random() * 150; i++) {
             ctx.fillStyle = porridgeColors[Math.floor(Math.random() * porridgeColors.length)];
-            let x = 180 + Math.random() * 240;
+            let x = 180 + Math.random() * 240; // Random horizontal placement of dots
             let y = 240 + Math.random() * 60; // Keep the porridge dots in the right vertical range
+            // Randomize the pile to be more organic
+            if (y > 240 && y < 260) x += Math.random() * 50; // Pile lower half (denser dots)
+            if (y > 260 && y < 280) x += Math.random() * 30; // Pile upper half (less dense dots)
             ctx.beginPath();
             ctx.arc(x, y, Math.random() * 2 + 1, 0, Math.PI * 2);
             ctx.fill();
@@ -121,3 +116,4 @@ window.onload = function() {
     draw();
     startRandomRefresh();
 };
+
