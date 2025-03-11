@@ -63,4 +63,43 @@ window.onload = function() {
             } else if (shape === 1) { // Soikea
                 ctx.ellipse(x, y, Math.random() * 6 + 4, Math.random() * 3 + 2, 0, 0, Math.PI * 2);
             } else if (shape === 2) { // Puolipyöreä
-                ctx.arc(x, y, Math.random() * 6 + 3, 
+                ctx.arc(x, y, Math.random() * 6 + 3, 0, Math.PI);
+            } else { // Banaanin muotoinen
+                ctx.ellipse(x, y, Math.random() * 8 + 4, Math.random() * 3 + 2, Math.PI / 4, 0, Math.PI * 2);
+            }
+
+            ctx.fill();
+        }
+    }
+
+    // Funktio piirtämään epätasainen puuro lautaselle
+    function drawPorridge(plateWidth) {
+        const porridgeColors = ["#a07e58", "#9c7752", "#8f6d4a", "#a3835f", "#97795c"];
+
+        // Piirretään puuron epätasainen yläreuna
+        ctx.beginPath();
+        ctx.moveTo(120, 300); // Puuro alkaa lautasen vasemmalta reunalta
+        for (let i = 0; i < plateWidth; i += 20) {
+            let yOffset = Math.random() * 20 + 10; // Epätasaiset kumpareet
+            ctx.lineTo(120 + i, 300 - yOffset);
+        }
+        ctx.lineTo(120 + plateWidth, 300); // Puuro menee alas
+        ctx.lineTo(120, 300); // Sulkee puuron yläreunan
+        ctx.fillStyle = "#d1b09b"; // Puuro värinä
+        ctx.fill();
+
+        // Satunnaiset pisteet puuron pinnalle
+        for (let i = 0; i < 400; i++) { // Lisää pisteitä
+            ctx.fillStyle = porridgeColors[Math.floor(Math.random() * porridgeColors.length)];
+            let x = 120 + Math.random() * plateWidth;
+            let y = 300 - (Math.random() * 20 + 10); // Pysytään puuron alueella
+            ctx.beginPath();
+            ctx.arc(x, y, Math.random() * 2 + 1, 0, Math.PI * 2);
+            ctx.fill();
+        }
+    }
+
+    // Alustetaan piirros ja toistetaan se 500 ms välein (täytteet 500 ms, puuro 700 ms, lautanen 1500 ms)
+    draw();
+    setInterval(draw, 500); // Kutsutaan piirrosta 500 ms välein
+};
