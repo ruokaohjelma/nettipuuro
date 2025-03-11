@@ -6,11 +6,12 @@ window.onload = function() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         // Draw plate (side view)
-        ctx.fillStyle = "#ffffff";
+        ctx.fillStyle = "#ffffff"; // Plate color
         ctx.beginPath();
-        ctx.ellipse(200, 200, 120, 30, 0, 0, Math.PI * 2);
+        ctx.ellipse(200, 200, 120, 30, 0, 0, Math.PI * 2); // Oval plate
         ctx.fill();
-        ctx.strokeStyle = "#aaa";
+        ctx.strokeStyle = "#888"; // Plate outline color
+        ctx.lineWidth = 2;
         ctx.stroke();
 
         // Draw toppings
@@ -46,5 +47,3 @@ window.onload = function() {
     draw();
     setInterval(draw, 5000);
 };
-
-
