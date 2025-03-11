@@ -49,15 +49,6 @@ window.onload = function() {
             ctx.arc(x, y, Math.random() * 2 + 1, 0, Math.PI * 2);
             ctx.fill();
         }
-
-        // Fill the entire arc (previous "half-brown arc") with porridge
-        ctx.beginPath();
-        ctx.arc(200, 240, plateWidth, 0, Math.PI, true); // Same arc as the plate
-        ctx.lineTo(50, 240); // Left side
-        ctx.lineTo(350, 240); // Right side
-        ctx.closePath();
-        ctx.fillStyle = "#d1b09b"; // Filling with porridge color
-        ctx.fill();
     }
 
     function drawToppings() {
