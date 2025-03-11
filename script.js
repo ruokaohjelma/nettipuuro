@@ -1,7 +1,10 @@
 const canvas = document.getElementById("puuroCanvas");
 const ctx = canvas.getContext("2d");
 
+console.log("Script loaded, attempting to draw.");
+
 function drawPlate() {
+    console.log("Drawing plate...");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     ctx.fillStyle = "#ffffff"; // White plate
@@ -42,6 +45,7 @@ function drawOrnaments(cx, cy, rx, ry) {
 }
 
 function drawPorridge(cx, cy) {
+    console.log("Drawing porridge...");
     ctx.fillStyle = "#d2a679"; // Light brown porridge color
 
     ctx.beginPath();
@@ -52,6 +56,7 @@ function drawPorridge(cx, cy) {
 }
 
 function drawToppings(cx, cy) {
+    console.log("Adding toppings...");
     const toppings = ["#ff0000", "#ffcc00", "#a52a2a", "#d2691e", "#8b4513"];
     ctx.fillStyle = toppings[Math.floor(Math.random() * toppings.length)];
 
@@ -64,5 +69,9 @@ function drawToppings(cx, cy) {
     }
 }
 
-setInterval(drawPlate, 5000);
-drawPlate();
+// Ensure it runs immediately
+window.onload = function() {
+    console.log("Window loaded, starting drawing.");
+    drawPlate();
+    setInterval(drawPlate, 5000);
+};
