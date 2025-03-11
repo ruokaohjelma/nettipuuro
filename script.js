@@ -2,8 +2,12 @@ window.onload = function() {
     const canvas = document.getElementById("puuroCanvas");
     const ctx = canvas.getContext("2d");
 
+    // Increase canvas size to make the whole scene bigger
+    canvas.width = 600;
+    canvas.height = 400;
+
     // Store the refresh intervals
-    let porridgeInterval, toppingInterval, bowlShapeInterval;
+    let porridgeInterval, toppingInterval, bowlShapeInterval, ornamentInterval;
 
     function draw() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -16,19 +20,22 @@ window.onload = function() {
 
         // Draw toppings
         drawToppings();
+
+        // Draw ornaments on the plate
+        drawOrnaments();
     }
 
     function drawBowlShape() {
         ctx.fillStyle = "#ffffff"; // Plate color
         ctx.beginPath();
-        ctx.moveTo(80, 240); // Left side of the plate
-        ctx.lineTo(320, 240); // Right side of the plate
-        ctx.lineTo(350, 220); // Right outer curve (boat-like bottom)
-        ctx.lineTo(50, 220);  // Left outer curve (boat-like bottom)
+        ctx.moveTo(120, 300); // Left side of the plate
+        ctx.lineTo(480, 300); // Right side of the plate
+        ctx.lineTo(520, 280); // Right outer curve (boat-like bottom)
+        ctx.lineTo(80, 280);  // Left outer curve (boat-like bottom)
         ctx.closePath();
         ctx.fill();
         ctx.strokeStyle = "#888"; // Plate outline color
-        ctx.lineWidth = 2;
+        ctx.lineWidth = 3;
         ctx.stroke();
     }
 
@@ -38,16 +45,16 @@ window.onload = function() {
         // Porridge is a heap of small dots, but the shape is a half-circle with a straight top line
         ctx.fillStyle = "#a07e58"; // Base porridge color
         ctx.beginPath();
-        ctx.arc(200, 210, 80 + Math.random() * 20, Math.PI, 0, false); // Half circle shape (heap of porridge)
-        ctx.lineTo(120, 210); // Connect the straight line on top
+        ctx.arc(300, 270, 120 + Math.random() * 20, Math.PI, 0, false); // Half circle shape (heap of porridge)
+        ctx.lineTo(180, 270); // Connect the straight line on top
         ctx.closePath();
         ctx.fill();
 
         // Add more details by filling with smaller dots
-        for (let i = 0; i < 300 + Math.random() * 100; i++) {
+        for (let i = 0; i < 400 + Math.random() * 150; i++) {
             ctx.fillStyle = porridgeColors[Math.floor(Math.random() * porridgeColors.length)];
-            let x = 120 + Math.random() * 160;
-            let y = 180 + Math.random() * 40; // Keep the porridge dots in the right vertical range
+            let x = 180 + Math.random() * 240;
+            let y = 240 + Math.random() * 60; // Keep the porridge dots in the right vertical range
             ctx.beginPath();
             ctx.arc(x, y, Math.random() * 2 + 1, 0, Math.PI * 2);
             ctx.fill();
@@ -60,11 +67,11 @@ window.onload = function() {
         // Randomly draw 5 toppings with a bigger size
         for (let i = 0; i < 5; i++) {
             ctx.fillStyle = toppingColors[Math.floor(Math.random() * toppingColors.length)];
-            let x = 140 + Math.random() * 120;
-            let y = 150 + Math.random() * 30; // Make toppings sit above the porridge
+            let x = 200 + Math.random() * 200;
+            let y = 210 + Math.random() * 40; // Make toppings sit above the porridge
 
             // Randomize topping size
-            let size = Math.random() * 8 + 5;  // Topping size slightly bigger
+            let size = Math.random() * 10 + 8;  // Topping size slightly bigger
             
             ctx.beginPath();
             let shape = Math.floor(Math.random() * 4);
@@ -83,11 +90,31 @@ window.onload = function() {
         }
     }
 
+    function drawOrnaments() {
+        // Draw random ornaments or designs on the plate to give it more decoration
+        const ornamentColors = ["#ffd700", "#ff6347", "#4682b4", "#32cd32", "#8a2be2"];
+        const ornaments = [
+            { x: 150, y: 290, size: 10 },
+            { x: 220, y: 295, size: 8 },
+            { x: 350, y: 290, size: 9 },
+            { x: 400, y: 300, size: 12 },
+            { x: 470, y: 295, size: 7 }
+        ];
+
+        ornaments.forEach(ornament => {
+            ctx.fillStyle = ornamentColors[Math.floor(Math.random() * ornamentColors.length)];
+            ctx.beginPath();
+            ctx.arc(ornament.x, ornament.y, ornament.size, 0, Math.PI * 2);
+            ctx.fill();
+        });
+    }
+
     // Initialize random refresh rates for different elements
     function startRandomRefresh() {
         porridgeInterval = setInterval(drawPorridge, Math.random() * 3000 + 1000); // Porridge refresh rate between 1s - 4s
         toppingInterval = setInterval(drawToppings, Math.random() * 4000 + 1000);  // Topping refresh rate between 1s - 5s
         bowlShapeInterval = setInterval(drawBowlShape, Math.random() * 5000 + 2000);  // Bowl shape refresh rate between 2s - 7s
+        ornamentInterval = setInterval(drawOrnaments, Math.random() * 6000 + 2000);  // Ornament refresh rate between 2s - 8s
     }
 
     // Run immediately and start random refreshes
