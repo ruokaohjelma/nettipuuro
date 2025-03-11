@@ -1,24 +1,11 @@
-document.addEventListener("DOMContentLoaded", function() {
-    console.log("DOM fully loaded");
-
+window.onload = function() {
     const canvas = document.getElementById("puuroCanvas");
-    if (!canvas) {
-        console.error("Canvas not found!");
-        return;
-    }
-    console.log("Canvas found!");
-
     const ctx = canvas.getContext("2d");
-    if (!ctx) {
-        console.error("Canvas context could not be created!");
-        return;
-    }
-    console.log("Canvas context loaded!");
 
     function draw() {
-        console.log("Drawing...");
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+        // Draw plate (side view)
         ctx.fillStyle = "#ffffff"; // Plate color
         ctx.beginPath();
         ctx.ellipse(200, 200, 120, 30, 0, 0, Math.PI * 2); // Oval plate
@@ -27,10 +14,25 @@ document.addEventListener("DOMContentLoaded", function() {
         ctx.lineWidth = 2;
         ctx.stroke();
 
-        console.log("Plate drawn!");
+        // Draw porridge
+        drawPorridge();
 
         // Draw toppings
         drawToppings();
+    }
+
+    function drawPorridge() {
+        const porridgeColors = ["#a07e58", "#9c7752", "#8f6d4a", "#a3835f", "#97795c"];
+        
+        for (let i = 0; i < 500; i++) {
+            ctx.fillStyle = porridgeColors[Math.floor(Math.random() * porridgeColors.length)];
+            let x = 120 + Math.random() * 160;
+            let y = 220 + Math.random() * 20; // Adjust Y position to place porridge under toppings
+
+            ctx.beginPath();
+            ctx.arc(x, y, Math.random() * 2 + 1, 0, Math.PI * 2); // Small random dots
+            ctx.fill();
+        }
     }
 
     function drawToppings() {
@@ -43,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             ctx.beginPath();
             let shape = Math.floor(Math.random() * 4);
-
+            
             if (shape === 0) { // Round
                 ctx.arc(x, y, Math.random() * 6 + 3, 0, Math.PI * 2);
             } else if (shape === 1) { // Oval
@@ -53,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function() {
             } else { // Banana shape (curved oval)
                 ctx.ellipse(x, y, Math.random() * 8 + 4, Math.random() * 3 + 2, Math.PI / 4, 0, Math.PI * 2);
             }
-
+            
             ctx.fill();
         }
     }
@@ -61,4 +63,4 @@ document.addEventListener("DOMContentLoaded", function() {
     // Run immediately and every 5 seconds
     draw();
     setInterval(draw, 5000);
-});
+};
