@@ -28,11 +28,19 @@ window.onload = function() {
     function drawPorridge() {
         const porridgeColors = ["#a07e58", "#9c7752", "#8f6d4a", "#a3835f", "#97795c"];
         
-        // Porridge is a heap of small dots
+        // Porridge is a heap of small dots, but the shape is a half-circle with a straight top line
+        ctx.fillStyle = "#a07e58"; // Base porridge color
+        ctx.beginPath();
+        ctx.arc(200, 210, 80, Math.PI, 0, false); // Half circle shape (heap of porridge)
+        ctx.lineTo(120, 210); // Connect the straight line on top
+        ctx.closePath();
+        ctx.fill();
+
+        // Add more details by filling with smaller dots
         for (let i = 0; i < 300; i++) {
             ctx.fillStyle = porridgeColors[Math.floor(Math.random() * porridgeColors.length)];
             let x = 120 + Math.random() * 160;
-            let y = 230 + Math.random() * 20;
+            let y = 180 + Math.random() * 40; // Keep the porridge dots in the right vertical range
             ctx.beginPath();
             ctx.arc(x, y, Math.random() * 2 + 1, 0, Math.PI * 2);
             ctx.fill();
@@ -46,7 +54,7 @@ window.onload = function() {
         for (let i = 0; i < 5; i++) {
             ctx.fillStyle = toppingColors[Math.floor(Math.random() * toppingColors.length)];
             let x = 140 + Math.random() * 120;
-            let y = 190 + Math.random() * 10;
+            let y = 150 + Math.random() * 30; // Make toppings sit above the porridge
 
             ctx.beginPath();
             let shape = Math.floor(Math.random() * 4);
