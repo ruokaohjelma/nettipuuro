@@ -5,16 +5,23 @@ window.onload = function() {
     function draw() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // Draw plate (side view) - deeper bowl
+        // Randomize plate shape
+        const plateHeight = 150 + Math.random() * 30; // Random height for the bowl
+        const plateWidth = 180 + Math.random() * 60;  // Random width for the bowl
+
+        // Draw the plate (side view) - deeper bowl with randomized shape
         ctx.fillStyle = "#ffffff"; // Plate color
         ctx.beginPath();
-        ctx.ellipse(200, 240, 150, 50, 0, 0, Math.PI); // Deeper bowl (side view)
+        ctx.arc(200, 240, plateWidth, 0, Math.PI, true); // Randomized width
+        ctx.lineTo(50, 240); // Left side
+        ctx.lineTo(350, 240); // Right side
+        ctx.closePath();
         ctx.fill();
         ctx.strokeStyle = "#888"; // Plate outline color
         ctx.lineWidth = 2;
         ctx.stroke();
 
-        // Draw porridge - half-sphere mound
+        // Draw porridge
         drawPorridge();
 
         // Draw toppings
@@ -24,12 +31,16 @@ window.onload = function() {
     function drawPorridge() {
         const porridgeColors = ["#a07e58", "#9c7752", "#8f6d4a", "#a3835f", "#97795c"];
 
+        // Draw organic mound of porridge in the center of the bowl
         ctx.beginPath();
-        ctx.arc(200, 180, 80, Math.PI, 0, true); // Half-sphere mound of porridge
+        ctx.moveTo(120, 180);
+        ctx.quadraticCurveTo(200, 140, 280, 180); // Organic curve for the mound
+        ctx.lineTo(280, 220);
+        ctx.quadraticCurveTo(200, 260, 120, 220); // Closing the mound
         ctx.fillStyle = "#d1b09b"; // Light brown for porridge base
         ctx.fill();
 
-        // Draw small dots for porridge
+        // Add random dots for porridge texture
         for (let i = 0; i < 300; i++) {
             ctx.fillStyle = porridgeColors[Math.floor(Math.random() * porridgeColors.length)];
             let x = 120 + Math.random() * 160;
@@ -38,6 +49,15 @@ window.onload = function() {
             ctx.arc(x, y, Math.random() * 2 + 1, 0, Math.PI * 2);
             ctx.fill();
         }
+
+        // Fill the entire arc (previous "half-brown arc") with porridge
+        ctx.beginPath();
+        ctx.arc(200, 240, plateWidth, 0, Math.PI, true); // Same arc as the plate
+        ctx.lineTo(50, 240); // Left side
+        ctx.lineTo(350, 240); // Right side
+        ctx.closePath();
+        ctx.fillStyle = "#d1b09b"; // Filling with porridge color
+        ctx.fill();
     }
 
     function drawToppings() {
