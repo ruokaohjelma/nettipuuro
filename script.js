@@ -1,47 +1,42 @@
-const canvas = document.getElementById('puurocanvas');
-const ctx = canvas.getContext('2d');
+window.onload = function() {
+    const canvas = document.getElementById("puuroCanvas");
+    const ctx = canvas.getContext("2d");
 
-const plateWidth = 200;
-const plateHeight = 100;
-const porridgeHeight = 70;
+    // Funktio, joka piirtää koko järjestelmän
+    function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-// Värit täytteille
-const toppingsColors = ['#ff6347', '#adff2f', '#ffa500', '#8a2be2', '#d2691e'];
+        // Määritellään lautasen muoto ja korkeus
+        const plateHeight = 150 + Math.random() * 30;
+        const plateWidth = 180 + Math.random() * 60;
 
-// Funktio puurolautasen piirtämiseen
-function drawPlate() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // Piirretään lautanen (bowl shape)
-    ctx.beginPath();
-    ctx.ellipse(canvas.width / 2, canvas.height - 50, plateWidth / 2, plateHeight / 2, 0, Math.PI, 2 * Math.PI);
-    ctx.fillStyle = '#dcdcdc';
-    ctx.fill();
-    ctx.stroke();
-
-    // Piirretään puuro (heap)
-    ctx.beginPath();
-    ctx.arc(canvas.width / 2, canvas.height - 50 - porridgeHeight, plateWidth / 3, 0, Math.PI * 2);
-    ctx.fillStyle = '#d3b898';
-    ctx.fill();
-    ctx.stroke();
-
-    // Piirretään täytteet, jotka liikkuvat
-    for (let i = 0; i < toppingsColors.length; i++) {
-        const angle = Date.now() / (1000 + i * 1000) + i * Math.PI;
-        const radius = plateWidth / 3 + Math.sin(angle) * 30;
-        const x = canvas.width / 2 + Math.cos(angle) * radius;
-        const y = canvas.height - 50 - porridgeHeight + Math.sin(angle) * 20;
-
+        // Piirretään lautanen
+        ctx.fillStyle = "#ffffff"; // Lautasen väri
         ctx.beginPath();
-        ctx.arc(x, y, 10 + Math.sin(angle) * 3, 0, Math.PI * 2);
-        ctx.fillStyle = toppingsColors[i];
+        ctx.arc(200, 240, plateWidth, 0, Math.PI, true); // Lautanen
+        ctx.lineTo(50, 240); // Vasemman puolen viiva
+        ctx.lineTo(350, 240); // Oikean puolen viiva
+        ctx.closePath();
         ctx.fill();
+        ctx.strokeStyle = "#888"; // Lautasen ääriviivan väri
+        ctx.lineWidth = 2;
         ctx.stroke();
+
+        // Piirretään puuro
+        drawPorridge(plateWidth);
+
+        // Piirretään täytteet
+        drawToppings();
     }
 
-    requestAnimationFrame(drawPlate);
-}
+    // Funktio piirtämään puuro lautaselle
+    function drawPorridge(plateWidth) {
+        const porridgeColors = ["#a07e58", "#9c7752", "#8f6d4a", "#a3835f", "#97795c"];
 
-// Käynnistetään piirtäminen
-drawPlate();
+        // Piirretään puuron kasa
+        ctx.beginPath();
+        ctx.moveTo(120, 180);
+        ctx.quadraticCurveTo(200, 140, 280, 180); // Muotoillaan puuron kasa
+        ctx.lineTo(280, 220);
+        ctx.quadraticCurveTo(200, 260, 120, 220); // Puuron reunat
+        ctx.fi
