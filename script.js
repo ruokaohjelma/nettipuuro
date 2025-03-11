@@ -12,7 +12,7 @@ window.onload = function() {
     function draw() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // Draw plate (side view, boat-like shape)
+        // Draw plate (side view, deeper bowl shape)
         drawBowlShape();
 
         // Draw porridge (dots, organic pile shape)
@@ -30,8 +30,8 @@ window.onload = function() {
         ctx.beginPath();
         ctx.moveTo(120, 300); // Left side of the plate
         ctx.lineTo(480, 300); // Right side of the plate
-        ctx.lineTo(520, 280); // Right outer curve (boat-like bottom)
-        ctx.lineTo(80, 280);  // Left outer curve (boat-like bottom)
+        ctx.lineTo(510, 230); // Steeper right outer curve for depth
+        ctx.lineTo(90, 230);  // Steeper left outer curve for depth
         ctx.closePath();
         ctx.fill();
         ctx.strokeStyle = "#888"; // Plate outline color
@@ -116,4 +116,3 @@ window.onload = function() {
     draw();
     startRandomRefresh();
 };
-
