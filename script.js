@@ -2,41 +2,90 @@ window.onload = function() {
     const canvas = document.getElementById("puuroCanvas");
     const ctx = canvas.getContext("2d");
 
-    // Funktio, joka piirtää koko järjestelmän
     function draw() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // Määritellään lautasen muoto ja korkeus
-        const plateHeight = 150 + Math.random() * 30;
-        const plateWidth = 180 + Math.random() * 60;
+        // Randomize plate shape
+        const plateHeight = 150 + Math.random() * 30; // Random height for the bowl
+        const plateWidth = 180 + Math.random() * 60;  // Random width for the bowl
 
-        // Piirretään lautanen
-        ctx.fillStyle = "#ffffff"; // Lautasen väri
+        // Draw the plate (side view) - deeper bowl with randomized shape
+        ctx.fillStyle = "#ffffff"; // Plate color
         ctx.beginPath();
-        ctx.arc(200, 240, plateWidth, 0, Math.PI, true); // Lautanen
-        ctx.lineTo(50, 240); // Vasemman puolen viiva
-        ctx.lineTo(350, 240); // Oikean puolen viiva
+        ctx.arc(200, 240, plateWidth, 0, Math.PI, true); // Randomized width
+        ctx.lineTo(50, 240); // Left side
+        ctx.lineTo(350, 240); // Right side
         ctx.closePath();
         ctx.fill();
-        ctx.strokeStyle = "#888"; // Lautasen ääriviivan väri
+        ctx.strokeStyle = "#888"; // Plate outline color
         ctx.lineWidth = 2;
         ctx.stroke();
 
-        // Piirretään puuro
-        drawPorridge(plateWidth);
+        // Draw porridge
+        drawPorridge();
 
-        // Piirretään täytteet
+        // Draw toppings
         drawToppings();
     }
 
-    // Funktio piirtämään puuro lautaselle
-    function drawPorridge(plateWidth) {
+    function drawPorridge() {
         const porridgeColors = ["#a07e58", "#9c7752", "#8f6d4a", "#a3835f", "#97795c"];
 
-        // Piirretään puuron kasa
+        // Draw organic mound of porridge in the center of the bowl
         ctx.beginPath();
         ctx.moveTo(120, 180);
-        ctx.quadraticCurveTo(200, 140, 280, 180); // Muotoillaan puuron kasa
+        ctx.quadraticCurveTo(200, 140, 280, 180); // Organic curve for the mound
         ctx.lineTo(280, 220);
-        ctx.quadraticCurveTo(200, 260, 120, 220); // Puuron reunat
-        ctx.fi
+        ctx.quadraticCurveTo(200, 260, 120, 220); // Closing the mound
+        ctx.fillStyle = "#d1b09b"; // Light brown for porridge base
+        ctx.fill();
+
+        // Add random dots for porridge texture
+        for (let i = 0; i < 300; i++) {
+            ctx.fillStyle = porridgeColors[Math.floor(Math.random() * porridgeColors.length)];
+            let x = 120 + Math.random() * 160;
+            let y = 170 + Math.random() * 30; // Keeping it inside the mound area
+            ctx.beginPath();
+            ctx.arc(x, y, Math.random() * 2 + 1, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        // Fill the entire arc (previous "half-brown arc") with porridge
+        ctx.beginPath();
+        ctx.arc(200, 240, plateWidth, 0, Math.PI, true); // Same arc as the plate
+        ctx.lineTo(50, 240); // Left side
+        ctx.lineTo(350, 240); // Right side
+        ctx.closePath();
+        ctx.fillStyle = "#d1b09b"; // Filling with porridge color
+        ctx.fill();
+    }
+
+    function drawToppings() {
+        const toppingColors = ["#ff0000", "#ffcc00", "#a52a2a", "#d2691e", "#8b4513"];
+
+        for (let i = 0; i < 7; i++) {
+            ctx.fillStyle = toppingColors[Math.floor(Math.random() * toppingColors.length)];
+            let x = 140 + Math.random() * 120;
+            let y = 170 + Math.random() * 10;
+
+            ctx.beginPath();
+            let shape = Math.floor(Math.random() * 4);
+
+            if (shape === 0) { // Round
+                ctx.arc(x, y, Math.random() * 6 + 3, 0, Math.PI * 2);
+            } else if (shape === 1) { // Oval
+                ctx.ellipse(x, y, Math.random() * 6 + 4, Math.random() * 3 + 2, 0, 0, Math.PI * 2);
+            } else if (shape === 2) { // Half-circle
+                ctx.arc(x, y, Math.random() * 6 + 3, 0, Math.PI);
+            } else { // Banana shape (curved oval)
+                ctx.ellipse(x, y, Math.random() * 8 + 4, Math.random() * 3 + 2, Math.PI / 4, 0, Math.PI * 2);
+            }
+
+            ctx.fill();
+        }
+    }
+
+    // Run immediately and every 3 seconds
+    draw();
+    setInterval(draw, 3000);
+};
