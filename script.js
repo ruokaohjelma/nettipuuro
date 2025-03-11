@@ -5,23 +5,19 @@ window.onload = function() {
     function draw() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // Randomize plate shape
-        const plateHeight = 150 + Math.random() * 30; // Random height for the bowl
-        const plateWidth = 180 + Math.random() * 60;  // Random width for the bowl
-
-        // Draw the plate (side view) - deeper bowl with randomized shape
+        // Draw the plate (side view) - deeper bowl
         ctx.fillStyle = "#ffffff"; // Plate color
         ctx.beginPath();
-        ctx.arc(200, 240, plateWidth, 0, Math.PI, true); // Randomized width
-        ctx.lineTo(50, 240); // Left side
-        ctx.lineTo(350, 240); // Right side
+        ctx.arc(200, 240, 150, 0, Math.PI, true); // Deep bowl side view (ellipse with a curve)
+        ctx.lineTo(50, 240); // Closing the left side of the bowl
+        ctx.lineTo(350, 240); // Closing the right side of the bowl
         ctx.closePath();
         ctx.fill();
         ctx.strokeStyle = "#888"; // Plate outline color
         ctx.lineWidth = 2;
         ctx.stroke();
 
-        // Draw porridge
+        // Draw porridge - more organic shape
         drawPorridge();
 
         // Draw toppings
