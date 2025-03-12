@@ -4,12 +4,19 @@ window.onload = function() {
     const width = canvas.width = 400;
     const height = canvas.height = 400;
     let time = 0;
+    let showHand = false;
+    let dropFruits = false;
     
     function draw() {
         ctx.clearRect(0, 0, width, height);
         drawPlate();
-        drawSand();
-        drawFruits();
+        if (!showHand) {
+            drawSand();
+            drawFruits();
+        } else {
+            drawHandAndPot();
+            drawLightning();
+        }
         time += 0.2; // Increase speed of wave animation
     }
     
@@ -51,10 +58,10 @@ window.onload = function() {
         for (let i = 0; i < 5; i++) {
             fruits.push({
                 x: width / 2 - 100 + Math.random() * 200,
-                y: 100 + Math.random() * 130, // Extend range to reach sand
+                y: dropFruits ? 0 : 100 + Math.random() * 130, // Start higher if dropping
                 color: `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`,
-                dx: Math.random() * 2 - 1,
-                dy: Math.random() * 2 - 1
+                dx: dropFruits ? 0 : Math.random() * 2 - 1,
+                dy: dropFruits ? Math.random() * 4 + 2 : Math.random() * 2 - 1
             });
         }
     }
@@ -63,9 +70,10 @@ window.onload = function() {
         fruits.forEach(fruit => {
             fruit.x += fruit.dx * 3;
             fruit.y += fruit.dy * 3;
-            if (fruit.x < width / 2 - 120 || fruit.x > width / 2 + 120) fruit.dx *= -1;
-            if (fruit.y < 50 || fruit.y > 260) fruit.dy *= -1; // Allow falling to sand
-            
+            if (!dropFruits) {
+                if (fruit.x < width / 2 - 120 || fruit.x > width / 2 + 120) fruit.dx *= -1;
+                if (fruit.y < 50 || fruit.y > 260) fruit.dy *= -1; // Allow falling to sand
+            }
             ctx.fillStyle = fruit.color;
             ctx.beginPath();
             ctx.arc(fruit.x, fruit.y, Math.random() * 6 + 4, 0, Math.PI * 2);
@@ -73,7 +81,44 @@ window.onload = function() {
         });
     }
     
+    function drawHandAndPot() {
+        // Draw pot
+        ctx.fillStyle = "#444";
+        ctx.fillRect(140, 60, 120, 80);
+        ctx.strokeRect(140, 60, 120, 80);
+        
+        // Draw hand scooping
+        ctx.fillStyle = "#f4c090";
+        ctx.beginPath();
+        ctx.arc(200, 100, 20, 0, Math.PI * 2);
+        ctx.fill();
+    }
+    
+    function drawLightning() {
+        for (let i = 0; i < 5; i++) {
+            ctx.strokeStyle = `rgba(0, 0, 255, ${Math.random()})`;
+            ctx.lineWidth = Math.random() * 2 + 1;
+            ctx.beginPath();
+            let startX = 140 + Math.random() * 120;
+            let startY = 60;
+            let endX = startX + Math.random() * 20 - 10;
+            let endY = startY + 40 + Math.random() * 20;
+            ctx.moveTo(startX, startY);
+            ctx.lineTo(endX, endY);
+            ctx.stroke();
+        }
+    }
+    
+    function toggleHand() {
+        showHand = true;
+        setTimeout(() => {
+            showHand = false;
+            dropFruits = !dropFruits;
+            generateFruits();
+        }, 2000);
+    }
+    
     generateFruits();
     setInterval(draw, 100);
-    setInterval(generateFruits, 3000);
+    setInterval(toggleHand, 10000);
 };
