@@ -10,7 +10,7 @@ window.onload = function() {
         drawPlate();
         drawSand();
         drawFruits();
-        time += 0.1;
+        time += 0.2; // Increase speed of wave animation
     }
     
     function drawPlate() {
@@ -18,7 +18,7 @@ window.onload = function() {
         ctx.lineWidth = 2;
         ctx.beginPath();
         let amplitude = 10;
-        let frequency = 0.2;
+        let frequency = 0.3; // Faster wave movement
         let centerX = width / 2;
         
         for (let x = centerX - 150; x <= centerX + 150; x++) {
@@ -48,12 +48,11 @@ window.onload = function() {
     let fruits = [];
     function generateFruits() {
         fruits = [];
-        const fruitColors = ["#ff0000", "#ffcc00", "#a52a2a", "#d2691e", "#8b4513"];
         for (let i = 0; i < 5; i++) {
             fruits.push({
-                x: width / 2 - 50 + Math.random() * 100,
-                y: 50 + Math.random() * 50,
-                color: fruitColors[Math.floor(Math.random() * fruitColors.length)],
+                x: width / 2 - 100 + Math.random() * 200,
+                y: 100 + Math.random() * 130, // Extend range to reach sand
+                color: `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`,
                 dx: Math.random() * 2 - 1,
                 dy: Math.random() * 2 - 1
             });
@@ -64,8 +63,8 @@ window.onload = function() {
         fruits.forEach(fruit => {
             fruit.x += fruit.dx * 3;
             fruit.y += fruit.dy * 3;
-            if (fruit.x < width / 2 - 100 || fruit.x > width / 2 + 100) fruit.dx *= -1;
-            if (fruit.y < 20 || fruit.y > 120) fruit.dy *= -1;
+            if (fruit.x < width / 2 - 120 || fruit.x > width / 2 + 120) fruit.dx *= -1;
+            if (fruit.y < 50 || fruit.y > 260) fruit.dy *= -1; // Allow falling to sand
             
             ctx.fillStyle = fruit.color;
             ctx.beginPath();
