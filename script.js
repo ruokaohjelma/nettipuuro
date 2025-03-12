@@ -1,14 +1,16 @@
 window.onload = function() {
     const canvas = document.getElementById("puuroCanvas");
     const ctx = canvas.getContext("2d");
-    const width = 400;
-    const height = 400;
+    const width = canvas.width = 400;
+    const height = canvas.height = 400;
+    let time = 0;
     
     function draw() {
         ctx.clearRect(0, 0, width, height);
         drawPlate();
         drawSand();
         drawFruits();
+        time += 0.1;
     }
     
     function drawPlate() {
@@ -20,7 +22,7 @@ window.onload = function() {
         let centerX = width / 2;
         
         for (let x = centerX - 150; x <= centerX + 150; x++) {
-            let y = 280 + Math.sin((x - (centerX - 150)) * frequency) * amplitude;
+            let y = 280 + Math.sin((x - (centerX - 150)) * frequency + time) * amplitude;
             ctx.lineTo(x, y);
         }
         ctx.stroke();
@@ -33,9 +35,9 @@ window.onload = function() {
     
     function drawSand() {
         const colors = ["#c2a37a", "#b49772", "#a68568", "#97785d", "#886b52"];
-        for (let i = 0; i < 50; i++) {
+        for (let i = 0; i < 100; i++) {
             ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)];
-            let x = width / 2 - 100 + Math.random() * 200;
+            let x = width / 2 - 150 + Math.random() * 300;
             let y = 230 + Math.random() * 50;
             ctx.beginPath();
             ctx.arc(x, y, Math.random() * 5 + 2, 0, Math.PI * 2);
