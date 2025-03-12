@@ -17,15 +17,15 @@ window.onload = function() {
             drawHandAndPot();
             drawLightning();
         }
-        time += 0.2; // Increase speed of wave animation
+        time += 0.8; // Increase speed of wave animation
     }
     
     function drawPlate() {
         ctx.strokeStyle = "#888";
         ctx.lineWidth = 2;
         ctx.beginPath();
-        let amplitude = 10;
-        let frequency = 0.3; // Faster wave movement
+        let amplitude = 6;
+        let frequency = 0.2; // Faster wave movement
         let centerX = width / 2;
         
         for (let x = centerX - 150; x <= centerX + 150; x++) {
@@ -85,7 +85,7 @@ window.onload = function() {
         // Draw pot
         ctx.fillStyle = "#444";
         ctx.fillRect(140, 60, 120, 80);
-        ctx.strokeRect(140, 60, 120, 80);
+        ctx.strokeRect(140, 80, 120, 80);
         
         // Draw hand scooping
         ctx.fillStyle = "#f4c090";
@@ -97,12 +97,12 @@ window.onload = function() {
     function drawLightning() {
         for (let i = 0; i < 5; i++) {
             ctx.strokeStyle = `rgba(0, 0, 255, ${Math.random()})`;
-            ctx.lineWidth = Math.random() * 2 + 1;
+            ctx.lineWidth = Math.random() * 3 + 1;
             ctx.beginPath();
             let startX = 140 + Math.random() * 120;
             let startY = 60;
             let endX = startX + Math.random() * 20 - 10;
-            let endY = startY + 40 + Math.random() * 20;
+            let endY = startY + 200 + Math.random() * 20;
             ctx.moveTo(startX, startY);
             ctx.lineTo(endX, endY);
             ctx.stroke();
@@ -115,7 +115,7 @@ window.onload = function() {
             showHand = false;
             dropFruits = !dropFruits;
             generateFruits();
-        }, 2000);
+        }, 10000);
     }
     
     generateFruits();
