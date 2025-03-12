@@ -17,10 +17,15 @@ window.onload = function() {
         ctx.beginPath();
         let amplitude = 10;
         let frequency = 0.2;
-        for (let x = 0; x <= width; x++) {
-            let y = 300 + Math.sin(x * frequency) * amplitude;
+        for (let x = 50; x <= 350; x++) {
+            let y = 280 + Math.sin((x - 50) * frequency) * amplitude;
             ctx.lineTo(x, y);
         }
+        ctx.stroke();
+        
+        ctx.beginPath();
+        ctx.moveTo(50, 280);
+        ctx.bezierCurveTo(80, 350, 320, 350, 350, 280);
         ctx.stroke();
     }
     
@@ -29,7 +34,7 @@ window.onload = function() {
         for (let i = 0; i < 50; i++) {
             ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)];
             let x = 100 + Math.random() * 200;
-            let y = 250 + Math.random() * 50;
+            let y = 230 + Math.random() * 50;
             ctx.beginPath();
             ctx.arc(x, y, Math.random() * 5 + 2, 0, Math.PI * 2);
             ctx.fill();
@@ -43,7 +48,7 @@ window.onload = function() {
         for (let i = 0; i < 5; i++) {
             fruits.push({
                 x: Math.random() * width,
-                y: Math.random() * 100,
+                y: Math.random() * 80,
                 color: fruitColors[Math.floor(Math.random() * fruitColors.length)],
                 dx: Math.random() * 2 - 1,
                 dy: Math.random() * 2 - 1
